@@ -37,6 +37,9 @@ public Component getTableCellEditorComponent(JTable table, Object value, boolean
   bListener.setColumn(column);
   bListener.setTable(table);
 
+  TVHClientApplication.getInstance().loading("loading "+((Channel)value).name);
+  
+  Intent.getInstance().setChannel((Channel)value);
   Intent.getInstance().setLongExtra("channelId", ((Channel)value).id);
   button.setText( (value == null) ? "" : value.toString() );
   button.setIcon(new ImageIcon(((Channel)value).iconBitmap));
@@ -62,7 +65,8 @@ class ButtonListener implements ActionListener{
 	  TVHClientApplication.getInstance().getFrame().setTitle("TVH client - "+((JButton)event.getSource()).getText());;
 	  
       
-	  TVHClientApplication app = TVHClientApplication.getInstance();
+	  
+	  
 	  //app.addSubscription(new Subscription());
 	  
 	  Intent.getInstance().setAction(Intent.ACTION_GET_TICKET);

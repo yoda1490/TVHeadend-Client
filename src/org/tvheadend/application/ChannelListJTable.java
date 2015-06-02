@@ -54,7 +54,6 @@ public class ChannelListJTable extends JTable implements HTSListener {
     private JLabel tagTextView;
     private BufferedImage tagImageView;
     private JButton tagBtn;
-    private JProgressBar pb;
     private ChannelTag currentTag;
    
 
@@ -302,6 +301,8 @@ public class ChannelListJTable extends JTable implements HTSListener {
 	        		data[i][0] = channels.get(i);
 	        		
 	        	}
+	        	
+	        	
         	}
         	
         	

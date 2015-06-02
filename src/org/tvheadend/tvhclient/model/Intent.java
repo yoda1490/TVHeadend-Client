@@ -8,6 +8,7 @@ public class Intent {
 	
 	
 	Hashtable<String,String> config;
+	Channel channel;
 	String action;
 	
 	public static final String ACTION_CHANNEL_ADD = "org.me.tvhclient.CHANNEL_ADD";
@@ -31,7 +32,9 @@ public class Intent {
     public static final String ACTION_TICKET_ADD = "org.me.tvhclient.TICKET";
     public static final String ACTION_ERROR = "org.me.tvhclient.ERROR";
     public static final String PLAY_VIDEO = "org.me.tvhclient.PLAY_VIDEO";
+    public static final String PLAY_LOADING = "org.me.tvhclient.PLAY_LOADING";
     public static final String PLAY_HTTP = "org.me.tvhclient.PLAY_HTTP";
+    public static final String STOP_PLAY = "org.me.tvhclient.STOP_PLAY";
     
     
     
@@ -46,6 +49,7 @@ public class Intent {
     public static final String ACTION_UNSUBSCRIBE = "org.me.tvhclient.htsp.UNSUBSCRIBE";
     public static final String ACTION_FEEDBACK = "org.me.tvhclient.htsp.FEEDBACK";
     public static final String ACTION_GET_TICKET = "org.me.tvhclient.htsp.GET_TICKET";
+    public static final String VIDEO_RUNNING = "org.me.tvhclient.htsp.VIDEO_RUNNING";
     
     public static final String CACHE_DIR="./cache/";
     public static final String STREAM_FILE="./stream/output";
@@ -131,6 +135,8 @@ public class Intent {
     	config.put(key, value);
     	
     }
+    
+    
 
     
     public String getAction(){
@@ -141,6 +147,15 @@ public class Intent {
     
     public void setAction(String action){
     	this.action = action;
+    }
+    
+    
+    public void setChannel(Channel ch){
+    	this.channel = ch;
+    }
+    
+    public Channel getChannel(){
+    	return channel;
     }
     
     

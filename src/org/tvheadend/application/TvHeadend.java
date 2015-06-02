@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
@@ -107,6 +108,10 @@ public class TvHeadend {
         
         frame.add(player.getMediaPlayer(), BorderLayout.CENTER);
         frame.add(jScrollPane, BorderLayout.WEST);
+        
+        
+        JPanel statusBar = new StatusBar();
+        frame.add(statusBar, BorderLayout.SOUTH);
         
         
         frame.setVisible(true);

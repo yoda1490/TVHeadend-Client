@@ -30,6 +30,7 @@ public class VideoPlayer implements HTSListener {
         mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
         
         TVHClientApplication app = TVHClientApplication.getInstance();
+        app.setVideoPlayer(this);
     	app.addListener(this);
     	
     }
@@ -83,10 +84,17 @@ public class VideoPlayer implements HTSListener {
 
 	@Override
 	public void onMessage(String action, Object obj) {
-		if(action.equals(Intent.PLAY_VIDEO)){
+		if(action.equals(Intent.PLAY_LOADING)){
+			System.out.println(obj.toString());
+			String httpStreamUrl = "./res/loading.gif";
+			this.setStream(httpStreamUrl);
+			this.start();
+		}else if(action.equals(Intent.PLAY_VIDEO)){
 			if(!this.getMediaPlayer().getMediaPlayer().isPlaying()){
 				this.setStream(obj.toString());
 				this.start();
+				//Tell module that stream is running
+				TVHClientApplication.getInstance().videoRunning("HTTP");
 			}
 		}else if(action.equals(Intent.PLAY_HTTP)){
 			//System.out.println("Play: "+obj.toString());
@@ -95,7 +103,13 @@ public class VideoPlayer implements HTSListener {
 			String httpStreamUrl = "http://"+intent.getStringExtra("hostname")+":"+intent.getStringExtra("httpPort")+"/"+obj.toString();
 			this.setStream(httpStreamUrl);
 			this.start();
+			//Tell module that stream is running
+			TVHClientApplication.getInstance().videoRunning("HTTP");
+		}else if(action.equals(Intent.STOP_PLAY)){
+			this.stop();
+			
 		}
+		
 		
 	}
 

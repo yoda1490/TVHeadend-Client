@@ -54,6 +54,7 @@ public class TVHClientApplication  {
     private final List<Recording> recordings = Collections.synchronizedList(new ArrayList<Recording>());
     private final List<Subscription> subscriptions = Collections.synchronizedList(new ArrayList<Subscription>());
     private volatile boolean loading = false;
+    private VideoPlayer videoPlayer;
     
     private Frame frame;
     
@@ -67,6 +68,14 @@ public class TVHClientApplication  {
     
     public void setFrame(Frame frame){
     	this.frame = frame;
+    }
+    
+    public void setVideoPlayer(VideoPlayer vp){
+    	this.videoPlayer = vp;
+    }
+    
+    public VideoPlayer getVideoPlayer(){
+    	return this.videoPlayer;
     }
     
     private static TVHClientApplication tvhClientApplication = new TVHClientApplication();
@@ -351,9 +360,29 @@ public class TVHClientApplication  {
     	}
     }
     
+    public void loading(String s){
+    	if (!loading) {
+    		broadcastMessage(Intent.PLAY_LOADING, s);
+    	}
+    }
+    
     public void videoHTTPReady(String s){
     	if (!loading) {
     		broadcastMessage(Intent.PLAY_HTTP, s);
+    	}
+    }
+    
+    
+    public void videoRunning(String s){
+    	if (!loading) {
+    		broadcastMessage(Intent.VIDEO_RUNNING, s);
+    	}
+    }
+    
+    
+    public void videoStop(String s){
+    	if (!loading) {
+    		broadcastMessage(Intent.STOP_PLAY, s);
     	}
     }
     
