@@ -4,11 +4,13 @@ package org.tvheadend.application;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -99,7 +101,8 @@ public class TvHeadend {
         frame.setLayout(new BorderLayout());
         new NativeDiscovery().discover();
         
-        TVHClientApplication.getInstance().setFrame(frame);
+        TVHClientApplication app = TVHClientApplication.getInstance();
+        app.setFrame(frame);
         
         player = new VideoPlayer(Intent.STREAM_FILE);
         
@@ -114,12 +117,19 @@ public class TvHeadend {
         frame.add(statusBar, BorderLayout.SOUTH);
         
         
+        app.addComponentToHideInFS(jScrollPane);
+        app.addComponentToHideInFS(statusBar);
+        
+        
         frame.setVisible(true);
         //player.start();
-        
-        
 		
 	}
+	
+	
+	
+	
+	
 	
 	
 	
