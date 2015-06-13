@@ -21,10 +21,6 @@ import org.tvheadend.tvhclient.model.Intent;
 
 import uk.co.caprica.vlcj.discovery.NativeDiscovery;
 
-
-
-
-
 public class TvHeadend {
 	
 	 

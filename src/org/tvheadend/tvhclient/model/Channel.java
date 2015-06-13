@@ -42,6 +42,7 @@ public class Channel implements Comparable<Channel> {
     public Image iconBitmap;
     public boolean isTransmitting;
     
+    
     public Channel (long id, String name, String icon, int number, Set<Programme> epg, Set<Recording> recordings, List<Integer> tags, Image iconBitmap, boolean isTransmitting){
     	this.id = id;
     	this.name = name;

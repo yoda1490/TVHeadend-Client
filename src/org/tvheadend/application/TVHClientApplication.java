@@ -19,6 +19,7 @@
 package org.tvheadend.application;
 
 
+import java.awt.Component;
 import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +29,11 @@ import java.util.List;
 
 
 
+
+
+
+
+import javax.swing.JPanel;
 
 
 //import org.tvheadend.tvhclient.R;
@@ -57,10 +63,13 @@ public class TVHClientApplication  {
     private VideoPlayer videoPlayer;
     
     private Frame frame;
+    private ArrayList<Component> componentToHideInFS = new ArrayList<Component>();
     
     private TVHClientApplication(){
     	
     }
+    
+    
     
     public Frame getFrame(){
     	return frame;
@@ -68,6 +77,19 @@ public class TVHClientApplication  {
     
     public void setFrame(Frame frame){
     	this.frame = frame;
+    }
+    
+    
+    public ArrayList<Component> getComponentToHideInFS(){
+    	return componentToHideInFS;
+    }
+    
+    public void addComponentToHideInFS(Component componentToHideInFS){
+    	this.componentToHideInFS.add(componentToHideInFS);
+    }
+    
+    public void removeComponentToHideInFS(Component componentToHideInFS){
+    	this.componentToHideInFS.remove(componentToHideInFS);
     }
     
     public void setVideoPlayer(VideoPlayer vp){
