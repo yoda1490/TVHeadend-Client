@@ -1,14 +1,8 @@
 package org.tvheadend.application;
 
-import java.awt.Component;
-import java.awt.Window;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.lang.reflect.Method;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -16,6 +10,7 @@ import javax.swing.SwingUtilities;
 import org.tvheadend.tvhclient.htsp.HTSListener;
 import org.tvheadend.tvhclient.model.Intent;
 
+<<<<<<< HEAD
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -23,6 +18,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
+=======
+import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
+import uk.co.caprica.vlcj.discovery.NativeDiscovery;
+import uk.co.caprica.vlcj.player.media.Media;
+import uk.co.caprica.vlcj.player.media.callback.seekable.RandomAccessFileMedia;
+>>>>>>> parent of 35cd31e... Added fullscreen mode ;)
 
 public class VideoPlayer implements HTSListener {
 	
@@ -36,6 +37,7 @@ public class VideoPlayer implements HTSListener {
     public VideoPlayer(String video) {
     	this.streamPath=video;
     	
+<<<<<<< HEAD
     	
     	
         
@@ -53,11 +55,15 @@ public class VideoPlayer implements HTSListener {
             public void keyPressed(KeyEvent e) {
             }
         };
+=======
+        mediaPlayerComponent = new EmbeddedMediaPlayerComponent();
+>>>>>>> parent of 35cd31e... Added fullscreen mode ;)
         
         TVHClientApplication app = TVHClientApplication.getInstance();
         app.setVideoPlayer(this);
     	app.addListener(this);
     	
+<<<<<<< HEAD
     	try{
     		enableOSXFullscreen(app.getFrame());
     	}catch(Exception e){
@@ -66,6 +72,8 @@ public class VideoPlayer implements HTSListener {
     	
     	
     	
+=======
+>>>>>>> parent of 35cd31e... Added fullscreen mode ;)
     }
     
     
@@ -103,19 +111,22 @@ public class VideoPlayer implements HTSListener {
     }
     
     
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void enableOSXFullscreen(Window window) {
-        try {
-            Class util = Class.forName("com.apple.eawt.FullScreenUtilities");
-            Class params[] = new Class[]{Window.class, Boolean.TYPE};
-            Method method = util.getMethod("setWindowCanFullScreen", params);
-            method.invoke(util, window, true);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    public static void main(final String[] args) {
+    	 new NativeDiscovery().discover();
+		   JFrame frame = new JFrame("TVHeadend Client");
+		        
+		   final VideoPlayer player = new VideoPlayer("http://192.168.1.25:9981/stream/channel/2b2c9903fc8dd072711696fd7536020b");
+		   frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		        
+		   frame.setContentPane(player.getMediaPlayer());
+		   frame.setVisible(true);
+		   player.start();
     }
-    
-    @Override
+
+
+
+
+	@Override
 	public void onMessage(String action, Object obj) {
 		if(action.equals(Intent.PLAY_LOADING)){
 			System.out.println(obj.toString());
@@ -136,7 +147,6 @@ public class VideoPlayer implements HTSListener {
 			String httpStreamUrl = "http://"+intent.getStringExtra("hostname")+":"+intent.getStringExtra("httpPort")+"/"+obj.toString();
 			this.setStream(httpStreamUrl);
 			this.start();
-			
 			//Tell module that stream is running
 			TVHClientApplication.getInstance().videoRunning("HTTP");
 		}else if(action.equals(Intent.STOP_PLAY)){
@@ -148,43 +158,6 @@ public class VideoPlayer implements HTSListener {
 	}
 
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void requestToggleFullScreen(Window window, EmbeddedMediaPlayerComponent mpc)
-    {
-    	
-    	for(Component c: TVHClientApplication.getInstance().getComponentToHideInFS()){
-    		c.setVisible(!c.isVisible());
-    	}
-    	
-    	
-    	String osName = System.getProperty("os.name").toLowerCase();
-    	boolean isMacOs = osName.startsWith("mac os x");
-    	if (!isMacOs) 
-    	{
-    		try{
-    			mpc.getMediaPlayer().toggleFullScreen();
-    		}catch(Exception e){
-    			System.err.println("Error: "+e);
-    		}
-    	  
-    	}else{
-    		
-    		
-    		
-	        try {
-	            Class appClass = Class.forName("com.apple.eawt.Application");
-	            Class params[] = new Class[]{};
-	 
-	            Method getApplication = appClass.getMethod("getApplication", params);
-	            Object application = getApplication.invoke(appClass);
-	            Method requestToggleFulLScreen = application.getClass().getMethod("requestToggleFullScreen", Window.class);
-	 
-	            requestToggleFulLScreen.invoke(application, window);
-	        } catch (Exception e) {
-	            System.out.println("An exception occurred while trying to toggle full screen mode");
-	        }
-    	}
-    }
 
 
 	
