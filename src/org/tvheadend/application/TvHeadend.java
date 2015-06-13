@@ -84,7 +84,7 @@ public class TvHeadend {
 		}catch(Exception e){
 			System.err.println("Error: "+e);
 		}
-		frame.setBounds(100, 100, 600, 400);
+		frame.setBounds(100, 100, 708, 400);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             @Override

@@ -82,7 +82,7 @@ public class Intent {
 		 config.put("videoCodec", Stream.STREAM_TYPE_MPEG4VIDEO);
 		 config.put("audioCodec", Stream.STREAM_TYPE_AAC);
 		 
-		 config.put("playerMethod", "http");
+		 config.put("playerMethod", "htsp");
 		
 	}
 	

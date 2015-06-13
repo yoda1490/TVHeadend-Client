@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="/Users/yodaboole/toto/slf4j-1.7.12/slf4j-simple-1.7.12.jar"/>
 	<classpathentry kind="lib" path="/Users/yodaboole/toto/jna-4.1.0.jar"/>
 	<classpathentry kind="lib" path="/Users/yodaboole/toto/platform-3.4.0.jar"/>
+	<classpathentry kind="lib" path="/Users/yodaboole/toto/javax.annotation-api-1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

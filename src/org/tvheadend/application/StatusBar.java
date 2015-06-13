@@ -2,11 +2,14 @@ package org.tvheadend.application;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -20,16 +23,34 @@ import uk.co.caprica.vlcj.player.MediaPlayer;
 
 public class StatusBar extends JPanel implements HTSListener{
 	
-	
+	private TVHClientApplication app;
 	private JProgressBar epg,volume,signal;
+	private JButton ratio;
+	MediaPlayer mp;
 
 	public StatusBar(){
+		app = TVHClientApplication.getInstance();
+		mp = app.getVideoPlayer().getMediaPlayer().getMediaPlayer();
+		
 		this.setLayout(new FlowLayout());
-		TVHClientApplication app = TVHClientApplication.getInstance();
-    	app.addListener(this);
+		app.addListener(this);
     	epg = new JProgressBar();
     	volume = new JProgressBar();
     	signal = new JProgressBar();
+    	ratio = new JButton();
+    	
+    	volume.setSize(20,5);
+    	epg.setSize(20,5);
+    	
+    	ratio.addActionListener(new ActionListener() {
+    		 
+            public void actionPerformed(ActionEvent e)
+            {
+            	mp.setAdjustVideo(true);
+            	mp.setAspectRatio("16:9");
+                ratio.setText(mp.getAspectRatio());
+            }
+        });
 	}
 
 	@Override
@@ -37,13 +58,14 @@ public class StatusBar extends JPanel implements HTSListener{
 		 if (action.equals(Intent.VIDEO_RUNNING)) {
 			 Channel ch = Intent.getInstance().getChannel();
 			 this.removeAll();
-			 TVHClientApplication app = TVHClientApplication.getInstance();
-			 MediaPlayer vp = app.getVideoPlayer().getMediaPlayer().getMediaPlayer();
-			 if(vp != null){
+			 
+			 
+			 if(mp != null){
 				display_epg(ch);
-			 	display_subtitles(vp);
-			 	display_languages(vp);
-			 	display_volume(vp);
+			 	display_subtitles(mp);
+			 	display_languages(mp);
+			 	display_ratio(mp);
+			 	display_volume(mp);
 			 }
 			 
 	        	
@@ -84,8 +106,17 @@ public class StatusBar extends JPanel implements HTSListener{
 	}
 	public void display_volume(MediaPlayer mp){
 		volume.setValue(mp.getVolume());
+		
 		this.add(new JLabel("Volume: "));
 		this.add(volume);
+	}
+	
+	
+	public void display_ratio(MediaPlayer mp){
+		volume.setValue(mp.getVolume());
+		ratio.setText(mp.getAspectRatio());
+		this.add(ratio);
+		
 	}
 	
 	public void display_signal(Object obj){

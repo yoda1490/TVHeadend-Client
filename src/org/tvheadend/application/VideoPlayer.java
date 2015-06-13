@@ -16,17 +16,19 @@ import javax.swing.SwingUtilities;
 import org.tvheadend.tvhclient.htsp.HTSListener;
 import org.tvheadend.tvhclient.model.Intent;
 
-import uk.co.caprica.vlcj.component.EmbeddedMediaPlayerComponent;
-import uk.co.caprica.vlcj.discovery.NativeDiscovery;
-import uk.co.caprica.vlcj.player.embedded.DefaultAdaptiveRuntimeFullScreenStrategy;
-import uk.co.caprica.vlcj.player.media.Media;
-import uk.co.caprica.vlcj.player.media.callback.seekable.RandomAccessFileMedia;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 
 public class VideoPlayer implements HTSListener {
 	
 	
 
-    private final EmbeddedMediaPlayerComponent mediaPlayerComponent;
+    private final MediaPlayer mediaPlayer;
 
     private String streamPath;
     
@@ -34,13 +36,16 @@ public class VideoPlayer implements HTSListener {
     public VideoPlayer(String video) {
     	this.streamPath=video;
     	
-        mediaPlayerComponent = new EmbeddedMediaPlayerComponent(){
+    	
+    	
+        
+        MediaPlayer mediaPlayer = new MediaPlayer(media){
             @Override
             public void mouseClicked(MouseEvent e) {
             	requestToggleFullScreen(TVHClientApplication.getInstance().getFrame(), this);
             }
             
-                        @Override
+            @Override
             public void mouseWheelMoved(MouseWheelEvent e) {
             }
 
@@ -59,10 +64,7 @@ public class VideoPlayer implements HTSListener {
     		System.out.println("Error: "+e);
     	}
     	
-    	mediaPlayerComponent.getMediaPlayer().setFullScreenStrategy(
-    		    new DefaultAdaptiveRuntimeFullScreenStrategy(app.getFrame()) {
-    		    }
-    	);
+    	
     	
     }
     
@@ -70,7 +72,7 @@ public class VideoPlayer implements HTSListener {
     
     
     public EmbeddedMediaPlayerComponent getMediaPlayer(){
-    	return mediaPlayerComponent;
+    	return mediaPlayer;
     }
     
     public void setStream(String path){
@@ -79,21 +81,24 @@ public class VideoPlayer implements HTSListener {
     
     
     public void play(){
-    	mediaPlayerComponent.getMediaPlayer().play();
+    	mediaPlayer.play();
     }
     
     public void plause(){
-    	mediaPlayerComponent.getMediaPlayer().pause();
+    	mediaPlayer.pause();
     }
     
     public void stop(){
-    	mediaPlayerComponent.getMediaPlayer().stop();
+    	mediaPlayer.stop();
     }
     
     public void start(){
     	if(streamPath.length() != 0){
         	//mediaPlayerComponent.getMediaPlayer().setPlaySubItems(true);
-        	mediaPlayerComponent.getMediaPlayer().playMedia(streamPath);
+    		//mediaPlayerComponent.getMediaPlayer().setAspectRatio("16:10");
+    		mediaPlayer.playMedia(streamPath);
+        	
+    		
         }
     }
     
@@ -118,7 +123,7 @@ public class VideoPlayer implements HTSListener {
 			this.setStream(httpStreamUrl);
 			this.start();
 		}else if(action.equals(Intent.PLAY_VIDEO)){
-			if(!this.getMediaPlayer().getMediaPlayer().isPlaying()){
+			if(!this.getMediaPlayer().isPlaying()){
 				this.setStream(obj.toString());
 				this.start();
 				//Tell module that stream is running
